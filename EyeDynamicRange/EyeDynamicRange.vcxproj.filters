@@ -56,6 +56,12 @@
     <ClCompile Include="GeneratedFiles\qrc_EyeDynamicRange.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="EDRObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="EyeDynamicRange.h">
@@ -71,6 +77,15 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_EyeDynamicRange.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneMapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRObject.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

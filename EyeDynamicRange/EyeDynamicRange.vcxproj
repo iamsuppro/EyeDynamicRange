@@ -30,6 +30,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>$(QTDIR)\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -68,6 +69,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EDRImage.cpp" />
+    <ClCompile Include="EDRObject.cpp" />
     <ClCompile Include="EyeDynamicRange.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_EyeDynamicRange.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -108,6 +111,9 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EDRImage.h" />
+    <ClInclude Include="EDRObject.h" />
+    <ClInclude Include="EDRToneMapper.h" />
     <ClInclude Include="GeneratedFiles\ui_EyeDynamicRange.h" />
   </ItemGroup>
   <ItemGroup>
