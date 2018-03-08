@@ -34,19 +34,18 @@ class EDRImage : public EDRObject
 
 private:
 
-	EDRImagePixel ** img;
+	EDRImagePixel * img;
 	size_t width;
 	size_t height;
 
 public:
 
 	EDRImage();
-	EDRImage(char * filename);
 	~EDRImage();
 
 	void createBlankImage(size_t width, size_t height);
 
-	EDRImagePixel ** getRawData() const;
+	EDRImagePixel * getRawData() const;
 	size_t getWidth() const;
 	size_t getHeight() const;
 

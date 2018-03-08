@@ -13,11 +13,6 @@ EDRImage::EDRImage()
 {
 }
 
-EDRImage::EDRImage(char * filename)
-{
-	loadFromFile(filename);
-}
-
 EDRImage::~EDRImage()
 {
 	if (img)
@@ -31,12 +26,12 @@ void EDRImage::createBlankImage(size_t width, size_t height)
 		free(img);
 
 	// Create a new empty image with width*height pixels.
-	img = (EDRImagePixel **) malloc(width * height * sizeof(EDRImagePixel));
+	img = (EDRImagePixel *) malloc(width * height * sizeof(EDRImagePixel));
 	this->width = width;
 	this->height = height;
 }
 
-EDRImagePixel ** EDRImage::getRawData() const
+EDRImagePixel * EDRImage::getRawData() const
 {
 	return img;
 }
@@ -53,15 +48,15 @@ size_t EDRImage::getHeight() const
 
 void EDRImage::setPixel(size_t x, size_t y, EDRImagePixel value)
 {
-	img[x][y] = value;
+	*getPixRef(x, y) = value;
 }
 
 EDRImagePixel EDRImage::getPixel(size_t x, size_t y) const
 {
-	return img[x][y];
+	return *(img + (width * y) + x);
 }
 
 EDRImagePixel * EDRImage::getPixRef(size_t x, size_t y) const
 {
-	return *(img + x) + y;
+	return img + (width * y) + x;
 }

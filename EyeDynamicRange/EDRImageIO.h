@@ -1,5 +1,5 @@
 /*
-* Created by Jack Boffa on 03/07/2018.
+* Created by Jack Boffa on 03/08/2018.
 * Copyright (c) 2018. All rights reserved.
 */
 
@@ -10,7 +10,7 @@
 class EDRImageIO : public EDRObject
 {
 
-private:
+protected:
 
 	char * filename;
 	
