@@ -30,15 +30,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(QTDIR)\bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(QTDIR)\bin;$(ProjectDir)openexr\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir)openexr\include\OpenEXR;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;$(ProjectDir)openexr\include\OpenEXR;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -49,7 +50,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;IexMath-2_2.lib;Imath-2_2.lib;IlmImf-2_2.lib;IlmImfUtil-2_2.lib;Half.lib;IlmThread-2_2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -70,6 +71,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EDRImage.cpp" />
+    <ClCompile Include="EDRImageIO.cpp" />
+    <ClCompile Include="EDRImageIO_EDR.cpp" />
+    <ClCompile Include="EDRImageIO_EXR.cpp" />
     <ClCompile Include="EDRObject.cpp" />
     <ClCompile Include="EyeDynamicRange.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_EyeDynamicRange.cpp">
@@ -84,6 +88,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_EyeDynamicRange.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="half.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +96,7 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing EyeDynamicRange.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(ProjectDir)openexr\include\OpenEXR"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing EyeDynamicRange.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
@@ -111,10 +116,176 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\ilmbase-2.2.1\Half\toFloat.h" />
+    <ClInclude Include="bitmap\bitmap_image.hpp" />
     <ClInclude Include="EDRImage.h" />
+    <ClInclude Include="EDRImageIO.h" />
+    <ClInclude Include="EDRImageIO_EDR.h" />
+    <ClInclude Include="EDRImageIO_EXR.h" />
     <ClInclude Include="EDRObject.h" />
     <ClInclude Include="EDRToneMapper.h" />
+    <ClInclude Include="EDRUtil.h" />
     <ClInclude Include="GeneratedFiles\ui_EyeDynamicRange.h" />
+    <ClInclude Include="openexr\include\OpenEXR\half.h" />
+    <ClInclude Include="openexr\include\OpenEXR\halfExport.h" />
+    <ClInclude Include="openexr\include\OpenEXR\halfFunction.h" />
+    <ClInclude Include="openexr\include\OpenEXR\halfLimits.h" />
+    <ClInclude Include="openexr\include\OpenEXR\Iex.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexBaseExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexErrnoExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexExport.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexForward.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexMacros.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexMathExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexMathFloatExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexMathFpu.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexMathIeeeExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexNamespace.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IexThrowErrnoExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmBaseConfig.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThread.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThreadExport.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThreadForward.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThreadMutex.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThreadNamespace.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThreadPool.h" />
+    <ClInclude Include="openexr\include\OpenEXR\IlmThreadSemaphore.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathBox.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathBoxAlgo.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathColor.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathColorAlgo.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathEuler.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathExc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathExport.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathForward.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathFrame.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathFrustum.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathFrustumTest.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathFun.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathGL.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathGLU.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathHalfLimits.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathInt64.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathInterval.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathLimits.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathLine.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathLineAlgo.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathMath.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathMatrix.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathMatrixAlgo.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathNamespace.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathPlane.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathPlatform.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathQuat.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathRandom.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathRoots.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathShear.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathSphere.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathVec.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImathVecAlgo.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfAcesFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfArray.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfB44Compressor.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfBoxAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfChannelList.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfChannelListAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfChromaticities.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfChromaticitiesAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfCompositeDeepScanLine.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfCompression.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfCompressionAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfConvert.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfCRgbaFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepCompositing.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepFrameBuffer.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepImage.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepImageChannel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepImageIO.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepImageLevel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepImageState.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepImageStateAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepScanLineInputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepScanLineInputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepScanLineOutputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepScanLineOutputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepTiledInputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepTiledInputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepTiledOutputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDeepTiledOutputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfDoubleAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfEnvmap.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfEnvmapAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfExport.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFlatImage.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFlatImageChannel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFlatImageIO.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFlatImageLevel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFloatAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFloatVectorAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfForward.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFrameBuffer.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfFramesPerSecond.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfGenericInputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfGenericOutputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfHeader.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfHuf.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfImage.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfImageChannel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfImageChannelRenaming.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfImageDataWindow.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfImageIO.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfImageLevel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfInputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfInputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfInt64.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfIntAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfIO.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfKeyCode.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfKeyCodeAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfLineOrder.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfLineOrderAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfLut.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfMatrixAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfMisc.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfMultiPartInputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfMultiPartOutputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfMultiView.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfName.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfNamespace.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfOpaqueAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfOutputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfOutputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfPartHelper.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfPartType.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfPixelType.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfPreviewImage.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfPreviewImageAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfRational.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfRationalAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfRgba.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfRgbaFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfRgbaYca.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfSampleCountChannel.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfStandardAttributes.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfStringAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfStringVectorAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTestFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfThreading.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTileDescription.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTileDescriptionAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTiledInputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTiledInputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTiledOutputFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTiledOutputPart.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTiledRgbaFile.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTimeCode.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfTimeCodeAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfVecAttribute.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfVersion.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfWav.h" />
+    <ClInclude Include="openexr\include\OpenEXR\ImfXdr.h" />
+    <ClInclude Include="openexr\include\OpenEXR\OpenEXRConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="EyeDynamicRange.qrc">

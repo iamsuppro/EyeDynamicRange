@@ -7,14 +7,13 @@
 #include "EDRObject.h"
 
 /**
- * Defines an image pixel. Each pixel is 48 bits, with 8 bits
- * for hue and saturation, and 32 bits for linear brightness.
+ * Defines an image pixel.
  */
 typedef struct
 {
-	char h;
-	char s;
-	unsigned int l;
+	float r;
+	float g;
+	float b;
 } EDRImagePixel;
 
 /**

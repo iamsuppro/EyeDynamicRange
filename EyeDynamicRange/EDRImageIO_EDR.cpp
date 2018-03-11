@@ -21,7 +21,7 @@ EDRImage * EDRImageIO_EDR::loadFromFile()
 
 	// Load the "EDR" string that should be at the beginning, and the size.
 	char edr_check[4];
-	size_t width, height;
+	unsigned int width, height;
 	result = fscanf(fp, "%s %u%u", edr_check, &width, &height);
 
 	// Make sure we're reading the right type of file.
@@ -54,10 +54,13 @@ bool EDRImageIO_EDR::saveToFile(EDRImage * img)
 		return false;
 	}
 
+	unsigned int width = img->getWidth();
+	unsigned int height = img->getHeight();
+
 	// Write the EDR string and the size.
 	result = fwrite("EDR ", sizeof(char), 4, fp);
-	result += fwrite(&(img->getWidth()), sizeof(size_t), 1, fp);
-	result += fwrite(&(img->getHeight()), sizeof(size_t), 1, fp);
+	result += fwrite(&width, sizeof(size_t), 1, fp);
+	result += fwrite(&height, sizeof(size_t), 1, fp);
 
 	if (result < 6)
 	{
