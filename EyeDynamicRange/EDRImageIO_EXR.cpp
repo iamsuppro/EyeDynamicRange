@@ -1,3 +1,8 @@
+/*
+* Created by Jack Boffa on 03/10/2018.
+* Copyright (c) 2018. All rights reserved.
+*/
+
 #include "EDRImageIO_EXR.h"
 #include "ImfImageIO.h"
 #include "ImfRgbaFile.h"

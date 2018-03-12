@@ -14,24 +14,187 @@
    <string>EyeDynamicRange</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="leftMargin">
-     <number>0</number>
+     <number>9</number>
     </property>
     <property name="topMargin">
-     <number>0</number>
+     <number>9</number>
     </property>
     <property name="rightMargin">
-     <number>0</number>
+     <number>9</number>
     </property>
     <property name="bottomMargin">
-     <number>0</number>
+     <number>9</number>
     </property>
     <item>
-     <widget class="QLabel" name="label">
+     <widget class="DrawAreaEDR" name="mainDrawArea">
       <property name="text">
        <string>TextLabel</string>
       </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>General</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="geometry">
+         <rect>
+          <x>15</x>
+          <y>120</y>
+          <width>211</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Calibration</string>
+        </property>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>91</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Horizontal Offset:</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="calibrationHoriz">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>60</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-200</number>
+         </property>
+         <property name="maximum">
+          <number>200</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="calibrationVert">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>120</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-200</number>
+         </property>
+         <property name="maximum">
+          <number>200</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>90</y>
+           <width>91</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Vertical Offset:</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>15</x>
+          <y>20</y>
+          <width>211</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Tobii</string>
+        </property>
+        <widget class="QPushButton" name="tobiiReconnect">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>30</y>
+           <width>81</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Reconnect</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="tobiiLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>101</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Disconnected</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>tobiiLabel</zorder>
+        <zorder>tobiiReconnect</zorder>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Image</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -45,11 +208,134 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionFull_Screen"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_Controls"/>
+   </widget>
+   <addaction name="menuOptions"/>
   </widget>
+  <action name="actionFull_Screen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Full Screen</string>
+   </property>
+  </action>
+  <action name="actionShow_Controls">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Controls</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DrawAreaEDR</class>
+   <extends>QLabel</extends>
+   <header>drawareaedr.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="EyeDynamicRange.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionFull_Screen</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>EyeDynamicRangeClass</receiver>
+   <slot>onFullscreen(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShow_Controls</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>EyeDynamicRangeClass</receiver>
+   <slot>onShowControls(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tobiiReconnect</sender>
+   <signal>clicked()</signal>
+   <receiver>EyeDynamicRangeClass</receiver>
+   <slot>onTobiiReconnectClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>939</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationVert</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>EyeDynamicRangeClass</receiver>
+   <slot>onCalibrationVertChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>884</x>
+     <y>302</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationHoriz</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>EyeDynamicRangeClass</receiver>
+   <slot>onCalibrationHorizChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>884</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onTobiiReconnectClicked()</slot>
+  <slot>onCalibrationHorizChanged(int)</slot>
+  <slot>onCalibrationVertChanged(int)</slot>
+  <slot>onFullscreen(bool)</slot>
+  <slot>onShowControls(bool)</slot>
+ </slots>
 </ui>

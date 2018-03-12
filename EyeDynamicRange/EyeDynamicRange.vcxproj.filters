@@ -48,6 +48,15 @@
     <Filter Include="Source Files\OpenEXR">
       <UniqueIdentifier>{c063c401-7163-4621-a442-518cbc3c0ab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\EDR">
+      <UniqueIdentifier>{f383f269-cc6b-4075-8382-de87b13ccc23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EDR">
+      <UniqueIdentifier>{702fbccc-dc9c-4176-86f2-e6eb6bf29d2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tobii">
+      <UniqueIdentifier>{2e874859-4083-4089-9d82-302a452e9cd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,23 +74,35 @@
     <ClCompile Include="GeneratedFiles\qrc_EyeDynamicRange.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="EDRObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EDRImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EDRImageIO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EDRImageIO_EDR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EDRImageIO_EXR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="half.cpp">
       <Filter>Source Files\OpenEXR</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawAreaEDR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DrawAreaEDR.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DrawAreaEDR.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRImage.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRImageIO.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRImageIO_EDR.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRImageIO_EXR.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRObject.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="ETSTobii.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,34 +115,16 @@
     <CustomBuild Include="EyeDynamicRange.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="DrawAreaEDR.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_EyeDynamicRange.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="EDRToneMapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EDRImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EDRObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EDRImageIO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EDRImageIO_EDR.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="bitmap\bitmap_image.hpp">
       <Filter>Header Files\bitmap</Filter>
-    </ClInclude>
-    <ClInclude Include="EDRUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EDRImageIO_EXR.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="openexr\include\OpenEXR\IexForward.h">
       <Filter>Header Files\OpenEXR</Filter>
@@ -605,6 +608,42 @@
     </ClInclude>
     <ClInclude Include="..\..\ilmbase-2.2.1\Half\toFloat.h">
       <Filter>Header Files\OpenEXR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRImage.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRImageIO.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRImageIO_EDR.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRImageIO_EXR.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRObject.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneMapper.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRUtil.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="ETSTobii.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tobii\tobii.h">
+      <Filter>Header Files\tobii</Filter>
+    </ClInclude>
+    <ClInclude Include="tobii\tobii_engine.h">
+      <Filter>Header Files\tobii</Filter>
+    </ClInclude>
+    <ClInclude Include="tobii\tobii_streams.h">
+      <Filter>Header Files\tobii</Filter>
+    </ClInclude>
+    <ClInclude Include="tobii\tobii_wearable.h">
+      <Filter>Header Files\tobii</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
