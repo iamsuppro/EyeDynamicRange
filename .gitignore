@@ -241,5 +241,6 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
-# OpenEXR binaries and includes
-EyeDynamicRange/openexr/*
+# Tobii
+EyeDynamicRange/tobii_stream_engine.dll
+EyeDynamicRange/tobii/*
