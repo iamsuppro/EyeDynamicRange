@@ -76,6 +76,7 @@
     <ClCompile Include="EDRImageIO_EDR.cpp" />
     <ClCompile Include="EDRImageIO_EXR.cpp" />
     <ClCompile Include="EDRObject.cpp" />
+    <ClCompile Include="EDRToneMapper.cpp" />
     <ClCompile Include="ETSTobii.cpp" />
     <ClCompile Include="EyeDynamicRange.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_DrawAreaEDR.cpp">

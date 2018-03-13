@@ -104,6 +104,9 @@
     <ClCompile Include="ETSTobii.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EDRToneMapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="EyeDynamicRange.h">
