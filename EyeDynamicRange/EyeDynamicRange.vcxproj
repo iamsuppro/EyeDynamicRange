@@ -78,6 +78,7 @@
     <ClCompile Include="EDRObject.cpp" />
     <ClCompile Include="EDRToneMapper.cpp" />
     <ClCompile Include="EDRToneMapper_Basic.cpp" />
+    <ClCompile Include="EDRToneMapper_QtBuffer.cpp" />
     <ClCompile Include="ETSTobii.cpp" />
     <ClCompile Include="EyeDynamicRange.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_DrawAreaEDR.cpp">
@@ -129,6 +130,7 @@
     <ClInclude Include="..\..\ilmbase-2.2.1\Half\toFloat.h" />
     <ClInclude Include="bitmap\bitmap_image.hpp" />
     <ClInclude Include="EDRToneMapper_Basic.h" />
+    <ClInclude Include="EDRToneMapper_QtBuffer.h" />
     <ClInclude Include="tobii\tobii.h" />
     <ClInclude Include="tobii\tobii_engine.h" />
     <ClInclude Include="tobii\tobii_streams.h" />

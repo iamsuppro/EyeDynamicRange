@@ -31,6 +31,7 @@ public:
 	EDRToneMapper_Basic(EDRImage * img);
 	~EDRToneMapper_Basic();
 
+	virtual void toneMap(size_t x, size_t y, float dt) override;
 	virtual void toneMap(float linExposure, float dt) override;
 	virtual EDRStandardPixel getPixel(size_t x, size_t y) override;
 

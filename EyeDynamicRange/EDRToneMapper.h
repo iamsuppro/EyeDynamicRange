@@ -54,5 +54,5 @@ public:
 	virtual EDRStandardPixel getPixel(size_t x, size_t y) = 0;
 
 	EDRImage * getImage();
-	void setImage(EDRImage * newImg);
+	virtual void setImage(EDRImage * newImg);
 };

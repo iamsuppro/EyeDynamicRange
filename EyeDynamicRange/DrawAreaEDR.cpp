@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QPainter>
 #include "EDRToneMapper_Basic.h"
+#include "EDRToneMapper_QtBuffer.h"
 #include "EyeDynamicRange.h"
 
 DrawAreaEDR::DrawAreaEDR(QWidget *parent)
@@ -16,7 +17,8 @@ DrawAreaEDR::DrawAreaEDR(QWidget *parent)
 	, resizeTimerId(-1)
 	, hdrImg(nullptr)
 {
-	toneMapper = new EDRToneMapper_Basic(hdrImg);
+	EDRToneMapper * wrappedMapper = new EDRToneMapper_Basic(hdrImg);
+	toneMapper = new EDRToneMapper_QtBuffer(wrappedMapper);
 }
 
 DrawAreaEDR::~DrawAreaEDR()
@@ -26,7 +28,8 @@ DrawAreaEDR::~DrawAreaEDR()
 void DrawAreaEDR::initializeForImage(EDRImage * hdrImg)
 {
 	this->hdrImg = hdrImg;
-	this->toneMapper->setImage(hdrImg);
+	toneMapper->setImage(hdrImg);
+	((EDRToneMapper_QtBuffer *)toneMapper)->precomputeQImages();
 }
 
 void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
@@ -34,22 +37,36 @@ void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
 	if (!hdrImg) return;
 
 	// Initialize drawing.
-	img = QImage((int)hdrImg->getWidth(), (int)hdrImg->getHeight(), QImage::Format::Format_ARGB32);
+	//img = QImage((int)hdrImg->getWidth(), (int)hdrImg->getHeight(), QImage::Format::Format_ARGB32);
+
+	QPoint finalEyePos = QPoint(qMax(0, qMin(gazeLocalPos.x() + ets->optCalibrationHoriz,
+		img.width())), qMax(0, qMin(gazeLocalPos.y() + ets->optCalibrationVert, img.height())));
 
 	// Tone map to gaze position.
-	toneMapper->toneMap(gazeLocalPos.x() + ets->optCalibrationHoriz, gazeLocalPos.y() + ets->optCalibrationVert, 0);
+	toneMapper->toneMap(finalEyePos.x(), finalEyePos.y(), 0);
+	img = ((EDRToneMapper_QtBuffer *)toneMapper)->getToneMappedImage();
+
+	QPainter painter(&img);
 
 	// Pull pixels.
-	for (unsigned int i = 0; i < img.width(); i++)
+	/*for (unsigned int i = 0; i < img.width(); i++)
 	{
 		for (unsigned int j = 0; j < img.height(); j++)
 		{
 			EDRStandardPixel pix = toneMapper->getPixel(i, j);
 			img.setPixelColor((signed)i, (signed)j, QColor(pix.r, pix.g, pix.b));
 		}
+	}*/
+
+	// Draw gaze position.	
+	if (ets->optCalibrationShowGaze)
+	{
+		painter.setBrush(Qt::black);
+		painter.fillRect(finalEyePos.x() - 5, finalEyePos.y() - 5, 10, 10, Qt::BrushStyle::SolidPattern);
 	}
 
 	// Dump the image buffer to the label's pixmap.
+	painter.end();
 	setPixmap(QPixmap::fromImage(img));
 	repaint();
 }

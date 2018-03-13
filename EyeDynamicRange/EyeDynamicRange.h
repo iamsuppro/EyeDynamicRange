@@ -15,12 +15,15 @@ private:
 	ETSTobii * tobii;
 	DrawAreaEDR * drawArea;
 	int timerId;
+	int framerateCounter;
 
 public:
 
 	// Options.
 	int optCalibrationHoriz;
 	int optCalibrationVert;
+	bool optCalibrationShowGaze;
+	int optFPS;
 
 	EDRImage * hdrImg;
 
@@ -40,6 +43,7 @@ public slots:
 	void onTobiiReconnectClicked();
 	void onCalibrationHorizChanged(int newValue);
 	void onCalibrationVertChanged(int newValue);
+	void onCalibrationShowGazeChanged(bool newValue);
 	void onFullscreen(bool newValue);
 	void onShowControls(bool newValue);
 

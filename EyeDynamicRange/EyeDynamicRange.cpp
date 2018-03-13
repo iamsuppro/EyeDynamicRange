@@ -10,6 +10,7 @@
 
 EyeDynamicRange::EyeDynamicRange(QWidget *parent)
 	: QMainWindow(parent)
+	, optFPS(60)
 {
 	ui.setupUi(this);
 	drawArea = (DrawAreaEDR *)ui.mainDrawArea;
@@ -20,7 +21,7 @@ EyeDynamicRange::EyeDynamicRange(QWidget *parent)
 	reconnectToTobii();
 
 	// Start framerate timer.
-	timerId = startTimer(1000);
+	timerId = startTimer(1000/60);
 
 	// Load image.
 	hdrImg = EDRImageIO_EXR("MtTamWest.exr").loadFromFile();
@@ -45,6 +46,8 @@ void EyeDynamicRange::reconnectToTobii()
 
 void EyeDynamicRange::timerEvent(QTimerEvent * event)
 {
+	framerateCounter += 1000 / 60;
+
 	// Process eye data (thereby calling our callback).
 	if (tobii->isConnected())
 	{
@@ -62,6 +65,12 @@ void EyeDynamicRange::timerEvent(QTimerEvent * event)
 	else
 	{
 		drawArea->setGazeLocalPosition(QPoint(drawArea->img.width() / 2, drawArea->img.height() / 2));
+	}
+
+	// Repaint the draw area at the rate specified by the FPS.
+	if (framerateCounter > 1000 / optFPS)
+	{
+		framerateCounter = 0;
 		drawArea->repaintDrawArea(this);
 	}
 }
@@ -76,7 +85,6 @@ void EyeDynamicRange::onGazePointReceived(float alpha, float beta, void * contex
 
 	// Send that on to the draw area, and tell it to redraw.
 	edr->drawArea->setGazeScreenPosition(screenPoint);
-	edr->drawArea->repaintDrawArea(edr);
 }
 
 void EyeDynamicRange::onTobiiReconnectClicked()
@@ -92,6 +100,11 @@ void EyeDynamicRange::onCalibrationHorizChanged(int newValue)
 void EyeDynamicRange::onCalibrationVertChanged(int newValue)
 {
 	optCalibrationVert = newValue;
+}
+
+void EyeDynamicRange::onCalibrationShowGazeChanged(bool newValue)
+{
+	optCalibrationShowGaze = newValue;
 }
 
 void EyeDynamicRange::onFullscreen(bool newValue)

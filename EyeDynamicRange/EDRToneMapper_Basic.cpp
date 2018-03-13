@@ -13,6 +13,26 @@ EDRToneMapper_Basic::~EDRToneMapper_Basic()
 {
 }
 
+void EDRToneMapper_Basic::toneMap(size_t x, size_t y, float dt)
+{
+	int windowSize = 10;
+	int n = 0;
+	float exposureTotal = 0.f;
+
+	for (unsigned int i = fmax(0, x - windowSize); i < fmin(x + windowSize, img->getWidth()); i++)
+	{
+		for (unsigned int j = fmax(0, y - windowSize); j < fmin(y + windowSize, img->getHeight()); j++)
+		{
+			EDRImagePixel pix = img->getPixel(x, y);
+			exposureTotal += (pix.r + pix.g + pix.b) / 3.f;
+			n++;
+		}
+	}
+
+	exposure = exposureTotal / n;
+	toneMap(exposure, dt);
+}
+
 void EDRToneMapper_Basic::toneMap(float linExposure, float dt)
 {
 	// Set the linear values for target exposure and dynamic range edges.

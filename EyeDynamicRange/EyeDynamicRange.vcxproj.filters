@@ -110,6 +110,9 @@
     <ClCompile Include="EDRToneMapper_Basic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EDRToneMapper_QtBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="EyeDynamicRange.h">
@@ -652,6 +655,9 @@
       <Filter>Header Files\tobii</Filter>
     </ClInclude>
     <ClInclude Include="EDRToneMapper_Basic.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneMapper_QtBuffer.h">
       <Filter>Header Files\EDR</Filter>
     </ClInclude>
   </ItemGroup>

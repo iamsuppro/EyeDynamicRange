@@ -61,7 +61,7 @@
           <x>15</x>
           <y>120</y>
           <width>211</width>
-          <height>161</height>
+          <height>201</height>
          </rect>
         </property>
         <property name="title">
@@ -135,6 +135,19 @@
          </property>
          <property name="text">
           <string>Vertical Offset:</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="calibrationShowGaze">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>160</y>
+           <width>171</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Display Gaze Location</string>
          </property>
         </widget>
        </widget>
@@ -330,6 +343,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>calibrationShowGaze</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>EyeDynamicRangeClass</receiver>
+   <slot>onCalibrationShowGazeChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>884</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onTobiiReconnectClicked()</slot>
@@ -337,5 +366,6 @@
   <slot>onCalibrationVertChanged(int)</slot>
   <slot>onFullscreen(bool)</slot>
   <slot>onShowControls(bool)</slot>
+  <slot>onCalibrationShowGazeChanged(bool)</slot>
  </slots>
 </ui>

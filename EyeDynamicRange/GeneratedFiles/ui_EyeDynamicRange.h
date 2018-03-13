@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -43,6 +44,7 @@ public:
     QSlider *calibrationHoriz;
     QSlider *calibrationVert;
     QLabel *label_5;
+    QCheckBox *calibrationShowGaze;
     QGroupBox *groupBox;
     QPushButton *tobiiReconnect;
     QLabel *tobiiLabel;
@@ -86,7 +88,7 @@ public:
         tab->setObjectName(QStringLiteral("tab"));
         groupBox_4 = new QGroupBox(tab);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
-        groupBox_4->setGeometry(QRect(15, 120, 211, 161));
+        groupBox_4->setGeometry(QRect(15, 120, 211, 201));
         label_4 = new QLabel(groupBox_4);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setGeometry(QRect(20, 30, 91, 21));
@@ -107,6 +109,9 @@ public:
         label_5 = new QLabel(groupBox_4);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setGeometry(QRect(20, 90, 91, 21));
+        calibrationShowGaze = new QCheckBox(groupBox_4);
+        calibrationShowGaze->setObjectName(QStringLiteral("calibrationShowGaze"));
+        calibrationShowGaze->setGeometry(QRect(20, 160, 171, 21));
         groupBox = new QGroupBox(tab);
         groupBox->setObjectName(QStringLiteral("groupBox"));
         groupBox->setGeometry(QRect(15, 20, 211, 81));
@@ -150,6 +155,7 @@ public:
         QObject::connect(tobiiReconnect, SIGNAL(clicked()), EyeDynamicRangeClass, SLOT(onTobiiReconnectClicked()));
         QObject::connect(calibrationVert, SIGNAL(valueChanged(int)), EyeDynamicRangeClass, SLOT(onCalibrationVertChanged(int)));
         QObject::connect(calibrationHoriz, SIGNAL(valueChanged(int)), EyeDynamicRangeClass, SLOT(onCalibrationHorizChanged(int)));
+        QObject::connect(calibrationShowGaze, SIGNAL(toggled(bool)), EyeDynamicRangeClass, SLOT(onCalibrationShowGazeChanged(bool)));
 
         tabWidget->setCurrentIndex(0);
 
@@ -166,6 +172,7 @@ public:
         groupBox_4->setTitle(QApplication::translate("EyeDynamicRangeClass", "Calibration", nullptr));
         label_4->setText(QApplication::translate("EyeDynamicRangeClass", "Horizontal Offset:", nullptr));
         label_5->setText(QApplication::translate("EyeDynamicRangeClass", "Vertical Offset:", nullptr));
+        calibrationShowGaze->setText(QApplication::translate("EyeDynamicRangeClass", "Display Gaze Location", nullptr));
         groupBox->setTitle(QApplication::translate("EyeDynamicRangeClass", "Tobii", nullptr));
         tobiiReconnect->setText(QApplication::translate("EyeDynamicRangeClass", "Reconnect", nullptr));
         tobiiLabel->setText(QApplication::translate("EyeDynamicRangeClass", "Disconnected", nullptr));
