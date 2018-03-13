@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QLabel>
+#include "EDRImage.h"
 
 class DrawAreaEDR : public QLabel
 {
@@ -16,6 +17,9 @@ private:
 	QPoint gazeLocalPos;
 	int resizeTimerId;
 
+	EDRImage * hdrImg;
+	class EDRToneMapper * toneMapper;
+
 public:
 
 	QImage img;
@@ -23,6 +27,8 @@ public:
 public:
 	DrawAreaEDR(QWidget *parent);
 	~DrawAreaEDR();
+
+	void initializeForImage(EDRImage * hdrImg);
 
 	void repaintDrawArea(class EyeDynamicRange * ets);
 

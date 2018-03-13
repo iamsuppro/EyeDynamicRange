@@ -4,6 +4,7 @@
 #include "ui_EyeDynamicRange.h"
 #include "ETSTobii.h"
 #include "DrawAreaEDR.h"
+#include "EDRImage.h"
 
 class EyeDynamicRange : public QMainWindow
 {
@@ -20,6 +21,8 @@ public:
 	// Options.
 	int optCalibrationHoriz;
 	int optCalibrationVert;
+
+	EDRImage * hdrImg;
 
 private:
     Ui::EyeDynamicRangeClass ui;

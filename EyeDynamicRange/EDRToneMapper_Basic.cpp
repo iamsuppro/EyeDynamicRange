@@ -1,8 +1,8 @@
 #include "EDRToneMapper_Basic.h"
 #include <cmath>
 
-const unsigned int EDRToneMapper_Basic::DRANGE_EV_ABOVE = 4;
-const unsigned int EDRToneMapper_Basic::DRANGE_EV_BELOW = 4;
+const unsigned int EDRToneMapper_Basic::DRANGE_EV_ABOVE = 6;
+const unsigned int EDRToneMapper_Basic::DRANGE_EV_BELOW = 6;
 
 EDRToneMapper_Basic::EDRToneMapper_Basic(EDRImage * img)
 	: EDRToneMapper(img)

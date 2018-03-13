@@ -6,6 +6,7 @@
 #include "EyeDynamicRange.h"
 #include <QApplication>
 #include <QDesktopWidget>
+#include "EDRImageIO_EXR.h"
 
 EyeDynamicRange::EyeDynamicRange(QWidget *parent)
 	: QMainWindow(parent)
@@ -19,7 +20,11 @@ EyeDynamicRange::EyeDynamicRange(QWidget *parent)
 	reconnectToTobii();
 
 	// Start framerate timer.
-	timerId = startTimer(100);
+	timerId = startTimer(1000);
+
+	// Load image.
+	hdrImg = EDRImageIO_EXR("MtTamWest.exr").loadFromFile();
+	drawArea->initializeForImage(hdrImg);
 }
 
 void EyeDynamicRange::reconnectToTobii()

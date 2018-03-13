@@ -8,24 +8,46 @@
 #include <QImageReader>
 #include <QImage>
 #include <QPainter>
+#include "EDRToneMapper_Basic.h"
+#include "EyeDynamicRange.h"
 
 DrawAreaEDR::DrawAreaEDR(QWidget *parent)
 	: QLabel(parent)
 	, resizeTimerId(-1)
+	, hdrImg(nullptr)
 {
+	toneMapper = new EDRToneMapper_Basic(hdrImg);
 }
 
 DrawAreaEDR::~DrawAreaEDR()
 {
 }
 
+void DrawAreaEDR::initializeForImage(EDRImage * hdrImg)
+{
+	this->hdrImg = hdrImg;
+	this->toneMapper->setImage(hdrImg);
+}
+
 void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
 {
-	// Initialize drawing.
-	QPainter painter(&img);
-	painter.setBrush(Qt::black);
+	if (!hdrImg) return;
 
-	painter.end();
+	// Initialize drawing.
+	img = QImage((int)hdrImg->getWidth(), (int)hdrImg->getHeight(), QImage::Format::Format_ARGB32);
+
+	// Tone map to gaze position.
+	toneMapper->toneMap(gazeLocalPos.x() + ets->optCalibrationHoriz, gazeLocalPos.y() + ets->optCalibrationVert, 0);
+
+	// Pull pixels.
+	for (unsigned int i = 0; i < img.width(); i++)
+	{
+		for (unsigned int j = 0; j < img.height(); j++)
+		{
+			EDRStandardPixel pix = toneMapper->getPixel(i, j);
+			img.setPixelColor((signed)i, (signed)j, QColor(pix.r, pix.g, pix.b));
+		}
+	}
 
 	// Dump the image buffer to the label's pixmap.
 	setPixmap(QPixmap::fromImage(img));

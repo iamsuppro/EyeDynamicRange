@@ -11,6 +11,10 @@ class EDRImageIO_EXR : public EDRImageIO
 
 public:
 
+	EDRImageIO_EXR(char * filename);
+	~EDRImageIO_EXR();
+
 	virtual EDRImage * loadFromFile() override;
+
 
 };

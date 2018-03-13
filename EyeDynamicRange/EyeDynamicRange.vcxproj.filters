@@ -107,6 +107,9 @@
     <ClCompile Include="EDRToneMapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EDRToneMapper_Basic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="EyeDynamicRange.h">
@@ -647,6 +650,9 @@
     </ClInclude>
     <ClInclude Include="tobii\tobii_wearable.h">
       <Filter>Header Files\tobii</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneMapper_Basic.h">
+      <Filter>Header Files\EDR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

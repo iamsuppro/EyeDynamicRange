@@ -11,6 +11,15 @@
 
 using namespace Imf_2_2;
 
+EDRImageIO_EXR::EDRImageIO_EXR(char * filename)
+	: EDRImageIO(filename)
+{
+}
+
+EDRImageIO_EXR::~EDRImageIO_EXR()
+{
+}
+
 EDRImage * EDRImageIO_EXR::loadFromFile()
 {
 	// Load the EXR file.
@@ -23,22 +32,21 @@ EDRImage * EDRImageIO_EXR::loadFromFile()
 	EDRImage * img = new EDRImage();
 	img->createBlankImage(width, height);
 	
-	// Create a temporary buffer for converting to EDRImagePixels, one scanline at a time.
-	Rgba * stager = (Rgba *) malloc(sizeof(Rgba) * width);
+	// Create a temporary buffer for converting to EDRImagePixels.
+	Rgba * stager = (Rgba *) malloc(sizeof(Rgba) * width * height);
 	file.setFrameBuffer(stager, 1, width);
+	file.readPixels(dw.min.y, dw.max.y);
 
 	// Read a horizontal line from the EXR into the buffer.
-	for (unsigned int j = 0; j < height; j++)
+	for (unsigned int i = 0; i < width * height; i++)
 	{
-		file.readPixels((signed)j);
-
-		// Copy and convert the buffer pixels to EDRImagePixels.
-		for (unsigned int i = 0; i < width; i++)
-		{
-			EDRImagePixel pix = { (float)stager[i].r, (float)stager[i].g, (float)stager[i].b };
-			img->setPixel(i, j, pix);
-		}
+		EDRImagePixel * impix = img->getRawData() + i;
+		impix->r = (float)stager[i].r;
+		impix->g = (float)stager[i].g;
+		impix->b = (float)stager[i].b;
 	}
+
+	free(stager);
 	
 	return img;
 }
