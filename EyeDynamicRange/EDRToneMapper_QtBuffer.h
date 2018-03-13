@@ -15,7 +15,9 @@ class EDRToneMapper_QtBuffer : public EDRToneMapper
 protected:
 
 	EDRToneMapper * mapper;
-	QImage images [QTBUFFER_NUM_IMAGES];
+	QImage images[QTBUFFER_NUM_IMAGES];
+	float imageExposures[QTBUFFER_NUM_IMAGES];
+
 	QImage imageOut;
 
 	bool useGammaMap;

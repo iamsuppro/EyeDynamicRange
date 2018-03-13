@@ -8,7 +8,7 @@
 EDRToneMapper_QtBuffer::EDRToneMapper_QtBuffer(EDRToneMapper * mapper)
 	: EDRToneMapper(mapper->getImage())
 	, mapper(mapper)
-	, gamma(0.5)
+	, gamma(2.f)
 	, useGammaMap(true)
 {
 }
@@ -50,6 +50,8 @@ void EDRToneMapper_QtBuffer::precomputeQImages()
 			targetExposure = minExposure + ((maxExposure - minExposure) / (QTBUFFER_NUM_IMAGES - 1)) * k;
 		}
 
+		imageExposures[k] = targetExposure;
+
 		// Tone map to this exposure. Can't do anything time-based.
 		mapper->toneMap(targetExposure, 0.f);
 
@@ -82,20 +84,21 @@ void EDRToneMapper_QtBuffer::toneMap(size_t x, size_t y, float dt)
 		}
 	}
 
-	exposure = exposureTotal / n;
-	toneMap(exposure, dt);
+	toneMap(exposureTotal / n, dt);
 }
 
 void EDRToneMapper_QtBuffer::toneMap(float linExposure, float dt)
 {
-	// Figure out where between the lowest and highest exposure we are, normalized.
-	float minmaxrange = (exposure - minExposure) / maxExposure;
-	minmaxrange = fmin(fmax(0.f, minmaxrange), 1.f);
+	exposure = linExposure;
 
-	if (useGammaMap) minmaxrange = pow(minmaxrange, gamma);
-
-	unsigned int bucket = (unsigned int)(minmaxrange * (QTBUFFER_NUM_IMAGES - 1));
-	imageOut = images[bucket];
+	for (unsigned int i = 0; i < QTBUFFER_NUM_IMAGES; i++)
+	{
+		if (imageExposures[i] > exposure)
+		{
+			imageOut = images[i];
+			return;
+		}
+	}
 }
 
 EDRStandardPixel EDRToneMapper_QtBuffer::getPixel(size_t x, size_t y)
