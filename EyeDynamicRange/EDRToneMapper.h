@@ -29,30 +29,25 @@ protected:
 
 	EDRImage * img;
 
-public:
+protected:
 
 	EDRToneMapper(EDRImage * img);
 	~EDRToneMapper();
 
-	/**
-	 * Configure the tone mapper for a specified eye position on the image.
-	 * (x, y) is the eye position, dt is the time in seconds since toneMap()
-	 * was last called.
-	 */
-	virtual void toneMap(size_t x, size_t y, float dt);
+public:
 
 	/**
 	 * Configure the tone mapper for a specified exposure value. This value is
 	 * linear and corresponds to the pixel brightness level of the EDRImage that
 	 * should be perfectly exposed.
 	 */
-	virtual void toneMap(float linExposure, float dt) = 0;
+	virtual void toneMap(float linExposure) = 0;
 
 	/**
 	 * Get a tone-mapped pixel at the specified position.
 	 */
 	virtual EDRStandardPixel getPixel(size_t x, size_t y) = 0;
 
-	EDRImage * getImage();
+	virtual EDRImage * getImage();
 	virtual void setImage(EDRImage * newImg);
 };

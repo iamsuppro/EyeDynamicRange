@@ -12,7 +12,13 @@ typedef struct
 	float white;
 } EDRDynamicRange;
 
-class EDRToneMapper_Basic : public EDRToneMapper
+/**
+ * A tone mapper in which a dynamic range above and below the target
+ * exposure is specified. Values outside the dynamic range are either
+ * full black or full white. This class gamma corrects the target
+ * exposure 
+ */
+class EDRToneMapper_DR : public EDRToneMapper
 {
 
 private:
