@@ -32,9 +32,10 @@ protected:
 protected:
 
 	EDRToneMapper(EDRImage * img);
-	~EDRToneMapper();
 
 public:
+
+	virtual ~EDRToneMapper();
 
 	/**
 	 * Configure the tone mapper for a specified exposure value. This value is

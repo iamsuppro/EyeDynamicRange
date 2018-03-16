@@ -18,7 +18,9 @@ private:
 	int resizeTimerId;
 
 	EDRImage * hdrImg;
-	class EDRToneMapper * toneMapper;
+	class EDRToneMapper * mapper;
+	class EDRToneBuffer * buffer;
+	class EDREye * eye;
 
 public:
 

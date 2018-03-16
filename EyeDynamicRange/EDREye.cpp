@@ -4,6 +4,7 @@
 */
 
 #include "EDREye.h"
+#include <cmath>
 
 EDREye::EDREye(EDRImage * img, EDRToneMapper * mapper, EDRToneBuffer * buffer)
 	: img(img)
@@ -29,10 +30,20 @@ void EDREye::adapt(size_t x, size_t y, float dt)
 {
 	if (img)
 	{
-		// Basic implementation that sets the target exposure to exactly
-		// the level of the given pixel.
-		EDRImagePixel pix = img->getPixel(x, y);
-		exposure = (pix.r + pix.g + pix.b) / 3.f;
+		int windowSize = 20;
+		int n = 0;
+		float exposureTotal = 0.f;
+
+		for (unsigned int i = fmax(0, x - windowSize); i < fmin(x + windowSize, img->getWidth()); i++)
+		{
+			for (unsigned int j = fmax(0, y - windowSize); j < fmin(y + windowSize, img->getHeight()); j++)
+			{
+				exposureTotal += img->getPixelExposure(i, j);
+				n++;
+			}
+		}
+
+		exposure = exposureTotal / n;
 	}
 }
 

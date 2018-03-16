@@ -29,7 +29,7 @@ protected:
 public:
 
 	EDREye(EDRImage * img, EDRToneMapper * mapper, EDRToneBuffer * buffer = nullptr);
-	~EDREye();
+	virtual ~EDREye();
 
 	/**
 	 * Performs computation that can be done before usage begins. If

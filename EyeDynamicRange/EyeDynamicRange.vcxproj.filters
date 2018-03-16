@@ -104,14 +104,23 @@
     <ClCompile Include="ETSTobii.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EDRToneBuffer.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
     <ClCompile Include="EDRToneMapper.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\EDR</Filter>
     </ClCompile>
-    <ClCompile Include="EDRToneMapper_Basic.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="EDREye.cpp">
+      <Filter>Source Files\EDR</Filter>
     </ClCompile>
-    <ClCompile Include="EDRToneMapper_QtBuffer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="EDRToneMapper_DR.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRToneBuffer_GammaLerp.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
+    <ClCompile Include="EDRToneBuffer_Qt.cpp">
+      <Filter>Source Files\EDR</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -654,10 +663,19 @@
     <ClInclude Include="tobii\tobii_wearable.h">
       <Filter>Header Files\tobii</Filter>
     </ClInclude>
-    <ClInclude Include="EDRToneMapper_Basic.h">
+    <ClInclude Include="EDRToneBuffer.h">
       <Filter>Header Files\EDR</Filter>
     </ClInclude>
-    <ClInclude Include="EDRToneMapper_QtBuffer.h">
+    <ClInclude Include="EDREye.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneMapper_DR.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneBuffer_GammaLerp.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
+    <ClInclude Include="EDRToneBuffer_Qt.h">
       <Filter>Header Files\EDR</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,59 +1,33 @@
-#include "EDRToneMapper_Basic.h"
+#include "EDRToneMapper_DR.h"
 #include <cmath>
 
-const unsigned int EDRToneMapper_Basic::DRANGE_EV_ABOVE = 6;
-const unsigned int EDRToneMapper_Basic::DRANGE_EV_BELOW = 6;
-
-EDRToneMapper_Basic::EDRToneMapper_Basic(EDRImage * img)
+EDRToneMapper_DR::EDRToneMapper_DR(EDRImage * img)
 	: EDRToneMapper(img)
+	, exposure(0.f)
+	, gamma(0.f)
+	, currentRangeLin(0.f, 0.f)
+	, eyeRangeStops(4.f, 4.f)
 {
 }
 
-EDRToneMapper_Basic::~EDRToneMapper_Basic()
+EDRToneMapper_DR::~EDRToneMapper_DR()
 {
 }
 
-void EDRToneMapper_Basic::toneMap(size_t x, size_t y, float dt)
-{
-	int windowSize = 10;
-	int n = 0;
-	float exposureTotal = 0.f;
-
-	for (unsigned int i = fmax(0, x - windowSize); i < fmin(x + windowSize, img->getWidth()); i++)
-	{
-		for (unsigned int j = fmax(0, y - windowSize); j < fmin(y + windowSize, img->getHeight()); j++)
-		{
-			EDRImagePixel pix = img->getPixel(x, y);
-			exposureTotal += (pix.r + pix.g + pix.b) / 3.f;
-			n++;
-		}
-	}
-
-	exposure = exposureTotal / n;
-	toneMap(exposure, dt);
-}
-
-void EDRToneMapper_Basic::toneMap(float linExposure, float dt)
+void EDRToneMapper_DR::toneMap(float linExposure)
 {
 	// Set the linear values for target exposure and dynamic range edges.
 	exposure = linExposure;
-	range = getDynamicRange();
+	currentRangeLin = calcDynamicRangeLin();
 
 	// Normalize (0-1) the target exposure value within the dynamic range.
-	float exposureNorm = (exposure - range.black) / range.white;
+	float exposureNorm = (exposure - currentRangeLin.black) / (currentRangeLin.white - currentRangeLin.black);
 
-	// Calculate gamma. We want to put the target exposure value halfway in
-	// the range. That is, we want the pixel the user is looking at to end
-	// up with values around 0.5. Base our gamma correction on the value
-	// that does that.
-
-	// exposureNorm ^ gamma = 0.5
-	// gamma = log base exposureNorm of 0.5
-
-	gamma = log(0.5) / log(exposureNorm);
+	// Calculate the value used for gamma correction.
+	gamma = calcGamma(exposureNorm);
 }
 
-EDRStandardPixel EDRToneMapper_Basic::getPixel(size_t x, size_t y)
+EDRStandardPixel EDRToneMapper_DR::getPixel(size_t x, size_t y)
 {
 	// Set up image pixel and standard (output) pixel.
 	EDRImagePixel pIn = img->getPixel(x, y);
@@ -67,11 +41,37 @@ EDRStandardPixel EDRToneMapper_Basic::getPixel(size_t x, size_t y)
 	return pOut;
 }
 
-unsigned char EDRToneMapper_Basic::mapOneChannel(float in) const
+float EDRToneMapper_DR::getTargetExposure() const
+{
+	return exposure;
+}
+
+EDRDynamicRange EDRToneMapper_DR::getCurrentRangeLin() const
+{
+	return currentRangeLin;
+}
+
+EDRDynamicRange EDRToneMapper_DR::getEyeRangeFStops() const
+{
+	return eyeRangeStops;
+}
+
+void EDRToneMapper_DR::setEyeRangeFStops(float fStopsBelow, float fStopsAbove)
+{
+	eyeRangeStops.black = fStopsBelow;
+	eyeRangeStops.white = fStopsAbove;
+}
+
+float EDRToneMapper_DR::getGamma() const
+{
+	return gamma;
+}
+
+unsigned char EDRToneMapper_DR::mapOneChannel(float in) const
 {
 	// Normalize and clamp the input exposure to a value between 0 and 1
 	// that represents where that value is (linearly) in the dynamic range.
-	float inNorm = (in - range.black) / range.white;
+	float inNorm = (in - currentRangeLin.black) / (currentRangeLin.white - currentRangeLin.black);
 	inNorm = fmin(fmax(0.f, inNorm), 1.f);
 
 	// Gamma correct using the pre-computed gamma value.
@@ -80,10 +80,23 @@ unsigned char EDRToneMapper_Basic::mapOneChannel(float in) const
 	return (unsigned char)(out * 255.f);
 }
 
-EDRDynamicRange EDRToneMapper_Basic::getDynamicRange() const
+EDRDynamicRange EDRToneMapper_DR::calcDynamicRangeLin() const
 {
 	EDRDynamicRange r;
-	r.white = exposure * (float)(1 << DRANGE_EV_ABOVE);
-	r.black = exposure / (float)(1 << DRANGE_EV_BELOW);
+	r.white = exposure * pow(2.f, eyeRangeStops.white);
+	r.black = exposure / pow(2.f, eyeRangeStops.black);
 	return r;
+}
+
+float EDRToneMapper_DR::calcGamma(float exposureNorm) const
+{
+	// Calculate gamma. We want to put the target exposure value halfway in
+	// the range. That is, we want the pixel the user is looking at to end
+	// up with values around 0.5. Base our gamma correction on the value
+	// that does that.
+
+	// exposureNorm ^ gamma = 0.5
+	// gamma = log base exposureNorm of 0.5
+
+	return log(0.5) / log(exposureNorm);
 }

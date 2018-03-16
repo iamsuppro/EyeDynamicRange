@@ -40,7 +40,7 @@ private:
 public:
 
 	EDRImage();
-	~EDRImage();
+	virtual ~EDRImage();
 
 	void createBlankImage(size_t width, size_t height);
 
@@ -51,4 +51,7 @@ public:
 	void setPixel(size_t x, size_t y, EDRImagePixel value);
 	EDRImagePixel getPixel(size_t x, size_t y) const;
 	EDRImagePixel * getPixRef(size_t x, size_t y) const;
+
+	float getPixelExposure(size_t x, size_t y) const;
+	float getPixelExposure(EDRImagePixel pix) const;
 };

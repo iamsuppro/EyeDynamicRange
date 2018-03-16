@@ -5,20 +5,22 @@
 
 #include "DrawAreaEDR.h"
 
+#include "EyeDynamicRange.h"
 #include <QImageReader>
 #include <QImage>
 #include <QPainter>
-#include "EDRToneMapper_Basic.h"
-#include "EDRToneMapper_QtBuffer.h"
-#include "EyeDynamicRange.h"
+#include "EDRToneMapper_DR.h"
+#include "EDRToneBuffer_Qt.h"
+#include "EDREye.h"
 
 DrawAreaEDR::DrawAreaEDR(QWidget *parent)
 	: QLabel(parent)
 	, resizeTimerId(-1)
 	, hdrImg(nullptr)
+	, mapper(nullptr)
+	, buffer(nullptr)
+	, eye(nullptr)
 {
-	EDRToneMapper * wrappedMapper = new EDRToneMapper_Basic(hdrImg);
-	toneMapper = new EDRToneMapper_QtBuffer(wrappedMapper);
 }
 
 DrawAreaEDR::~DrawAreaEDR()
@@ -27,9 +29,21 @@ DrawAreaEDR::~DrawAreaEDR()
 
 void DrawAreaEDR::initializeForImage(EDRImage * hdrImg)
 {
+	if (this->hdrImg)
+	{
+		delete this->hdrImg;
+		delete this->mapper;
+		delete this->buffer;
+		delete this->eye;
+	}
+
 	this->hdrImg = hdrImg;
-	toneMapper->setImage(hdrImg);
-	((EDRToneMapper_QtBuffer *)toneMapper)->precomputeQImages();
+
+	mapper = new EDRToneMapper_DR(hdrImg);
+	buffer = new EDRToneBuffer_Qt(32, 2.f);
+	eye = new EDREye(hdrImg, mapper, buffer);
+
+	eye->precomputeExposures();
 }
 
 void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
@@ -43,20 +57,10 @@ void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
 		img.width())), qMax(0, qMin(gazeLocalPos.y() + ets->optCalibrationVert, img.height())));
 
 	// Tone map to gaze position.
-	toneMapper->toneMap(finalEyePos.x(), finalEyePos.y(), 0);
-	img = ((EDRToneMapper_QtBuffer *)toneMapper)->getToneMappedImage();
+	eye->adapt(finalEyePos.x(), finalEyePos.y(), 1000.f / ets->optFPS);
+	img = QImage(*(QImage *)eye->getStandardImage());
 
 	QPainter painter(&img);
-
-	// Pull pixels.
-	/*for (unsigned int i = 0; i < img.width(); i++)
-	{
-		for (unsigned int j = 0; j < img.height(); j++)
-		{
-			EDRStandardPixel pix = toneMapper->getPixel(i, j);
-			img.setPixelColor((signed)i, (signed)j, QColor(pix.r, pix.g, pix.b));
-		}
-	}*/
 
 	// Draw gaze position.	
 	if (ets->optCalibrationShowGaze)

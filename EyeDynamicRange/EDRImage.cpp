@@ -60,3 +60,13 @@ EDRImagePixel * EDRImage::getPixRef(size_t x, size_t y) const
 {
 	return img + (width * y) + x;
 }
+
+float EDRImage::getPixelExposure(size_t x, size_t y) const
+{
+	return getPixelExposure(getPixel(x, y));
+}
+
+float EDRImage::getPixelExposure(EDRImagePixel pix) const
+{
+	return 0.299f*pix.r + 0.587f*pix.g + 0.114f*pix.b;
+}

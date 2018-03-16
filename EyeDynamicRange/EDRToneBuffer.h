@@ -5,6 +5,7 @@
 
 #pragma once
 #include "EDRObject.h"
+#include "EDRToneMapper.h"
 
 /**
 * Abstract super-class for a buffer to store multiple pre-computed
@@ -18,16 +19,17 @@ class EDRToneBuffer : public EDRObject
 protected:
 
 	EDRToneBuffer();
-	~EDRToneBuffer();
 
 public:
+
+	virtual ~EDRToneBuffer();
 
 	/**
 	 * Pre-compute exposure levels by querying a tone mapper. This
 	 * method should be expected to take several minutes before it
 	 * returns.
 	 */
-	virtual void compute(class EDRToneMapper * toneMapper) = 0;
+	virtual void compute(EDRToneMapper * toneMapper) = 0;
 
 	/**
 	 * Gets a pointer to an image targeted at the specified exposure

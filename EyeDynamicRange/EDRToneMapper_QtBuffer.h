@@ -28,7 +28,7 @@ protected:
 public:
 
 	EDRToneMapper_QtBuffer(EDRToneMapper * mapper);
-	~EDRToneMapper_QtBuffer();
+	virtual ~EDRToneMapper_QtBuffer();
 
 	virtual void precomputeQImages();
 
