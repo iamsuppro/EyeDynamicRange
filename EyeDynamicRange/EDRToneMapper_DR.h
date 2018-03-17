@@ -77,7 +77,8 @@ protected:
 	/**
 	 * Calculate a new value for gamma, given a normalized (0-1) value
 	 * of where the target exposure linearly falls within the dynamic
-	 * range.
+	 * range. Note: exposureNorm is simply provided for convenience, and
+	 * should always match up with the exposure instance variable.
 	 */
 	virtual float calcGamma(float exposureNorm) const;
 };

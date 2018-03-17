@@ -55,6 +55,10 @@ protected:
 	EDRExponentialFit fitAdaptUp;
 	EDRExponentialFit fitAdaptDown;
 
+	float goalExposure;
+
+	unsigned int gazeAreaSize;
+
 public:
 
 	EDREye_Physical(EDRImage * img, EDRToneMapper * mapper, EDRToneBuffer * buffer = nullptr);
@@ -82,17 +86,20 @@ public:
 	 * adaptation times for the specified luminance level. This extrapolates
 	 * from known luminance data points.
 	 */
-	EDRLuminanceDataPoint calcDataPointForLuminance(float lumCdm2) const;
+	virtual EDRLuminanceDataPoint calcDataPointForLuminance(float lumCdm2) const;
 
-protected:
+	unsigned int getGazeAreaSize() const;
+	void setGazeAreaSize(unsigned int newSize);
+
+public:
 
 	/**
 	 * Helper function that calculates gamma values for standard image normalized
 	 * exposure and adaptation up/down times. Ideally we would have these values
 	 * for every luminance level, but this allows us to have values for just 3.
 	 */
-	virtual EDRExponentialFit calcExponentialFitInfo(float xlow, float ylow, float xmid, float ymid, float xhigh, float yhigh, bool flip) const;
+	static EDRExponentialFit calcExponentialFitInfo(float xlow, float ylow, float xmid, float ymid, float xhigh, float yhigh, bool flip);
 
-	virtual float doExponentialFit(EDRExponentialFit fit, float x) const;
+	static float doExponentialFit(EDRExponentialFit fit, float x);
 
 };

@@ -11,7 +11,7 @@
 #include <QPainter>
 #include "EDRToneMapper_DR.h"
 #include "EDRToneBuffer_Qt.h"
-#include "EDREye.h"
+#include "EDREye_Physical.h"
 
 DrawAreaEDR::DrawAreaEDR(QWidget *parent)
 	: QLabel(parent)
@@ -41,8 +41,9 @@ void DrawAreaEDR::initializeForImage(EDRImage * hdrImg)
 
 	mapper = new EDRToneMapper_DR(hdrImg);
 	buffer = new EDRToneBuffer_Qt(32, 2.f);
-	eye = new EDREye(hdrImg, mapper, buffer);
+	eye = new EDREye_Physical(hdrImg, mapper, buffer);
 
+	((EDREye_Physical *)eye)->calibrate(1.3f, 8000.f);
 	eye->precomputeExposures();
 }
 
@@ -57,7 +58,7 @@ void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
 		img.width())), qMax(0, qMin(gazeLocalPos.y() + ets->optCalibrationVert, img.height())));
 
 	// Tone map to gaze position.
-	eye->adapt(finalEyePos.x(), finalEyePos.y(), 1000.f / ets->optFPS);
+	eye->adapt(finalEyePos.x(), finalEyePos.y(), 1.f / ets->optFPS);
 	img = QImage(*(QImage *)eye->getStandardImage());
 
 	QPainter painter(&img);
