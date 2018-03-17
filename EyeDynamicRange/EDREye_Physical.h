@@ -6,9 +6,6 @@
 #pragma once
 #include "EDREye.h"
 
-/**
- * A 
- */
 typedef struct EDRLuminanceDataPoint_t
 {
 	char * name;				// Friendly name (e.g. "clear sky")
@@ -58,6 +55,10 @@ protected:
 	float goalExposure;
 
 	unsigned int gazeAreaSize;
+
+private:
+
+	float nextAdaptSeconds;
 
 public:
 

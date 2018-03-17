@@ -125,6 +125,9 @@
     <ClCompile Include="EDREye_Physical.cpp">
       <Filter>Source Files\EDR</Filter>
     </ClCompile>
+    <ClCompile Include="EDRToneMapper_Physical.cpp">
+      <Filter>Source Files\EDR</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="EyeDynamicRange.h">
@@ -681,8 +684,11 @@
     <ClInclude Include="EDRToneBuffer_Qt.h">
       <Filter>Header Files\EDR</Filter>
     </ClInclude>
+    <ClInclude Include="EDRToneMapper_Physical.h">
+      <Filter>Header Files\EDR</Filter>
+    </ClInclude>
     <ClInclude Include="EDREye_Physical.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\EDR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -61,12 +61,6 @@ void EyeDynamicRange::timerEvent(QTimerEvent * event)
 		}
 	}
 
-	// If no Tobii is connected, draw the scotoma in the center.
-	else
-	{
-		drawArea->setGazeLocalPosition(QPoint(drawArea->img.width() / 2, drawArea->img.height() / 2));
-	}
-
 	// Repaint the draw area at the rate specified by the FPS.
 	if (framerateCounter > 1000 / optFPS)
 	{

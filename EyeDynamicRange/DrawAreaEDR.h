@@ -39,6 +39,7 @@ public:
 
 protected:
 
+	virtual void mousePressEvent(QMouseEvent *event) override;
 	virtual void resizeEvent(QResizeEvent *event) override;
 	virtual void timerEvent(QTimerEvent *event) override;
 	

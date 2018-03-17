@@ -9,7 +9,8 @@
 #include <QImageReader>
 #include <QImage>
 #include <QPainter>
-#include "EDRToneMapper_DR.h"
+#include <QMouseEvent>
+#include "EDRToneMapper_Physical.h"
 #include "EDRToneBuffer_Qt.h"
 #include "EDREye_Physical.h"
 
@@ -39,12 +40,16 @@ void DrawAreaEDR::initializeForImage(EDRImage * hdrImg)
 
 	this->hdrImg = hdrImg;
 
-	mapper = new EDRToneMapper_DR(hdrImg);
+	mapper = new EDRToneMapper_Physical(hdrImg);
 	buffer = new EDRToneBuffer_Qt(32, 2.f);
 	eye = new EDREye_Physical(hdrImg, mapper, buffer);
 
+	((EDRToneMapper_Physical *)mapper)->attachPhysicalEye((EDREye_Physical *)eye);
+
 	((EDREye_Physical *)eye)->calibrate(1.3f, 8000.f);
 	eye->precomputeExposures();
+
+	gazeLocalPos = QPoint(hdrImg->getWidth() / 2, hdrImg->getHeight() / 2);
 }
 
 void DrawAreaEDR::repaintDrawArea(EyeDynamicRange * ets)
@@ -87,6 +92,11 @@ void DrawAreaEDR::setGazeScreenPosition(QPoint pos)
 	// relative to the widget.
 	gazeLocalPos = mapFromGlobal(pos);
 	gazeLocalPos.setY(gazeLocalPos.y() - 50);
+}
+
+void DrawAreaEDR::mousePressEvent(QMouseEvent * event)
+{
+	gazeLocalPos = QPoint(event->localPos().x(), event->localPos().y());
 }
 
 void DrawAreaEDR::resizeEvent(QResizeEvent * event)

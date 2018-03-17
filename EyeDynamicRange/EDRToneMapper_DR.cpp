@@ -6,7 +6,7 @@ EDRToneMapper_DR::EDRToneMapper_DR(EDRImage * img)
 	, exposure(0.f)
 	, gamma(0.f)
 	, currentRangeLin(0.f, 0.f)
-	, eyeRangeStops(4.f, 4.f)
+	, eyeRangeStops(5.f, 3.f)
 {
 }
 

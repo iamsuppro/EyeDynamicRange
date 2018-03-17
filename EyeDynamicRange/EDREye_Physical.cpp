@@ -1,13 +1,16 @@
 #include "EDREye_Physical.h"
 #include <cmath>
+#include "qglobal.h"
+#include <QString>
 
 EDREye_Physical::EDREye_Physical(EDRImage * img, EDRToneMapper * mapper, EDRToneBuffer * buffer)
 	: EDREye(img, mapper, buffer)
 	, gazeAreaSize(20)
+	, nextAdaptSeconds(100000.f)
 {
-	lumData[0] = EDRLuminanceDataPoint("Moonlit Ground", 1.4e-3f, 0.09f, 0.1f, 300.f);
-	lumData[1] = EDRLuminanceDataPoint("Shaded Grass", 2000.f, 0.4f, 5.f, 10.f);
-	lumData[2] = EDRLuminanceDataPoint("Clear Sky", 8000.f, 0.6575f, 6.f, 0.5f);
+	lumData[0] = EDRLuminanceDataPoint("Moonlit Ground", 1.4e-3f, 0.09f, 0.1f, 30.f);
+	lumData[1] = EDRLuminanceDataPoint("Shaded Grass", 2000.f, 0.4f, 5.f, 1.f);
+	lumData[2] = EDRLuminanceDataPoint("Clear Sky", 8000.f, 0.6575f, 6.f, 0.25f);
 
 	fitStandardImageNorm = calcExponentialFitInfo(
 		lumData[0].luminanceCdm2, lumData[0].standardImageNorm,
@@ -72,16 +75,24 @@ void EDREye_Physical::adapt(size_t x, size_t y, float dt)
 	if (exposure < goalExposure) {
 		adaptSeconds = ldGoal.adaptUpSeconds - ldCurrent.adaptUpSeconds;
 	}
-	else {
-		adaptSeconds = ldCurrent.adaptDownSeconds - ldGoal.adaptDownSeconds;
+	else if (exposure > goalExposure) {
+		adaptSeconds = ldGoal.adaptDownSeconds - ldCurrent.adaptDownSeconds;
 	}
+	else
+	{
+		adaptSeconds = 0.f;
+	}
+
+	/*adaptSeconds = fmin(adaptSeconds, nextAdaptSeconds);
+	nextAdaptSeconds = adaptSeconds - dt;*/
 
 	// Move the actual exposure value towards the goal exposure.
 	if (adaptSeconds <= dt) {
 		exposure = goalExposure;
 	}
 	else {
-		exposure += (goalExposure - exposure) * (dt / adaptSeconds);
+		float change = (goalExposure - exposure) / adaptSeconds * dt;
+		exposure += change;
 	}
 }
 
