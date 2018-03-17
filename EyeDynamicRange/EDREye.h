@@ -58,4 +58,11 @@ public:
 	 * Gets the current target exposure level of the eye.
 	 */
 	float getTargetExposure() const;
+
+	EDRImage * getEDRImage() const;
+	void setEDRImage(EDRImage * img);
+	EDRToneMapper * getToneMapper() const;
+	void setToneMapper(EDRToneMapper * mapper);
+	EDRToneBuffer * getBuffer() const;
+	void setBuffer(EDRToneBuffer * buffer);
 };

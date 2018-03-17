@@ -72,6 +72,7 @@
   <ItemGroup>
     <ClCompile Include="DrawAreaEDR.cpp" />
     <ClCompile Include="EDREye.cpp" />
+    <ClCompile Include="EDREye_Physical.cpp" />
     <ClCompile Include="EDRImage.cpp" />
     <ClCompile Include="EDRImageIO.cpp" />
     <ClCompile Include="EDRImageIO_EDR.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="..\..\ilmbase-2.2.1\Half\toFloat.h" />
     <ClInclude Include="bitmap\bitmap_image.hpp" />
     <ClInclude Include="EDREye.h" />
+    <ClInclude Include="EDREye_Physical.h" />
     <ClInclude Include="EDRToneBuffer.h" />
     <ClInclude Include="EDRToneBuffer_GammaLerp.h" />
     <ClInclude Include="EDRToneBuffer_Qt.h" />

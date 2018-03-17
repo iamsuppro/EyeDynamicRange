@@ -62,3 +62,33 @@ float EDREye::getTargetExposure() const
 {
 	return exposure;
 }
+
+EDRImage * EDREye::getEDRImage() const
+{
+	return img;
+}
+
+void EDREye::setEDRImage(EDRImage * img)
+{
+	this->img = img;
+}
+
+EDRToneMapper * EDREye::getToneMapper() const
+{
+	return mapper;
+}
+
+void EDREye::setToneMapper(EDRToneMapper * mapper)
+{
+	this->mapper = mapper;
+}
+
+EDRToneBuffer * EDREye::getBuffer() const
+{
+	return buffer;
+}
+
+void EDREye::setBuffer(EDRToneBuffer * buffer)
+{
+	this->buffer = buffer;
+}
